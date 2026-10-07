@@ -10,6 +10,20 @@ try:
 except ImportError:
     pass
 
+
+def get_secret(key: str, default: str = "") -> str:
+    """Retrieve configuration from Streamlit Community Cloud secrets (st.secrets) or environment variables."""
+    try:
+        if hasattr(st, "secrets") and key in st.secrets:
+            val = st.secrets[key]
+            if val is not None and str(val).strip():
+                return str(val).strip()
+    except Exception:
+        pass
+    env_val = os.getenv(key)
+    return env_val.strip() if env_val is not None else default
+
+
 from utils.research import run_web_research, demo_dataset
 from utils.validation import clean_dataframe, add_validation_scores, add_lead_score, CORE_QUALITY_FIELDS, LEAD_SCORE_WEIGHTS
 from utils.exporter import to_excel_bytes
@@ -481,16 +495,16 @@ with st.sidebar:
 
     # 4. API Configuration Drawer
     with st.expander("🔑 API Credentials & Models", expanded=(mode == "Live Web Research")):
-        st.markdown("<small style='color:#94A3B8;'>Keys are read automatically from <code>.env</code> or input below securely.</small>", unsafe_allow_html=True)
+        st.markdown("<small style='color:#94A3B8;'>Keys are read automatically from Streamlit Secrets, <code>.env</code>, or input below securely.</small>", unsafe_allow_html=True)
         tavily_key = st.text_input(
             "Tavily Search API Key",
-            value=os.getenv("TAVILY_API_KEY", ""),
+            value=get_secret("TAVILY_API_KEY", ""),
             type="password",
-            help="Required only for Live Web Research mode."
+            help="Required only for Live Web Research mode. Can also be set in Streamlit Cloud Secrets."
         )
         st.divider()
         st.markdown("**LLM Configuration (Optional)**")
-        env_llm_key = os.getenv("LLM_API_KEY") or os.getenv("OPENAI_API_KEY") or ""
+        env_llm_key = get_secret("LLM_API_KEY") or get_secret("OPENAI_API_KEY") or ""
         ai_key = st.text_input(
             "OpenAI / Groq API Key",
             value=env_llm_key,
@@ -499,12 +513,12 @@ with st.sidebar:
         )
         ai_endpoint = st.text_input(
             "Base URL",
-            value=os.getenv("LLM_BASE_URL", "https://api.groq.com/openai/v1"),
+            value=get_secret("LLM_BASE_URL", "https://api.groq.com/openai/v1"),
             help="OpenAI-compatible endpoint"
         )
         ai_model = st.text_input(
             "Model Name",
-            value=os.getenv("LLM_MODEL", "llama-3.3-70b-versatile"),
+            value=get_secret("LLM_MODEL", "llama-3.3-70b-versatile"),
             help="e.g. llama-3.3-70b-versatile, gpt-4o-mini"
         )
 
@@ -1066,7 +1080,7 @@ if not df.empty:
         with gen_insight_col1:
             run_macro = st.button("✨ Synthesize Cohort Market Insights", type="primary", use_container_width=True)
 
-        active_llm_key = (ai_key or os.getenv("LLM_API_KEY") or os.getenv("OPENAI_API_KEY") or "").strip()
+        active_llm_key = (ai_key or get_secret("LLM_API_KEY") or get_secret("OPENAI_API_KEY") or "").strip()
         with gen_insight_col2:
             if active_llm_key:
                 st.caption(f"🟢 Utilizing live model: `{ai_model or 'llama-3.3-70b-versatile'}`")
@@ -1133,7 +1147,7 @@ if not df.empty:
             </p>
         """, unsafe_allow_html=True)
 
-        active_llm_key = (ai_key or os.getenv("LLM_API_KEY") or os.getenv("OPENAI_API_KEY") or "").strip()
+        active_llm_key = (ai_key or get_secret("LLM_API_KEY") or get_secret("OPENAI_API_KEY") or "").strip()
         if not active_llm_key:
             st.info("💡 **Demo AI Mode Active**: Running without an LLM API key using built-in deterministic intelligence generators. To test live LLM calls, add your API key in the sidebar.", icon="✨")
 

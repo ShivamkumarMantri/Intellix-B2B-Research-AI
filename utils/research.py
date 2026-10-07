@@ -57,6 +57,20 @@ def _extract_leadership_from_snippet(text: str) -> Tuple[str, str]:
     return '', ''
 
 
+def _get_env_or_secret(key: str, default: str = "") -> str:
+    """Retrieve key from Streamlit secrets (for Streamlit Community Cloud) or os.getenv."""
+    try:
+        import streamlit as st
+        if hasattr(st, "secrets") and key in st.secrets:
+            val = st.secrets[key]
+            if val is not None and str(val).strip():
+                return str(val).strip()
+    except Exception:
+        pass
+    env_val = os.getenv(key)
+    return env_val.strip() if env_val is not None else default
+
+
 def run_web_research(
     query: str,
     max_results: int = 15,
@@ -67,7 +81,7 @@ def run_web_research(
 ) -> pd.DataFrame:
     """Run live web research with Tavily against public business sources.
     Extracts structured company fields without fabricating missing information."""
-    api_key = (api_key or os.getenv('TAVILY_API_KEY') or '').strip()
+    api_key = (api_key or _get_env_or_secret('TAVILY_API_KEY') or '').strip()
     if not api_key:
         raise ValueError('TAVILY_API_KEY is required for live web research.')
     if TavilyClient is None:

@@ -11,17 +11,31 @@ except ImportError:
     pass
 
 
+def _get_env_or_secret(key: str, default: str = "") -> str:
+    """Retrieve key from Streamlit secrets (for Streamlit Community Cloud) or os.getenv."""
+    try:
+        import streamlit as st
+        if hasattr(st, "secrets") and key in st.secrets:
+            val = st.secrets[key]
+            if val is not None and str(val).strip():
+                return str(val).strip()
+    except Exception:
+        pass
+    env_val = os.getenv(key)
+    return env_val.strip() if env_val is not None else default
+
+
 def get_llm_config(
     api_key: Optional[str] = None,
     endpoint: Optional[str] = None,
     model: Optional[str] = None
 ) -> tuple[str, str, str]:
-    """Resolve LLM credentials from parameters or environment variables."""
-    resolved_key = (api_key or os.getenv('LLM_API_KEY') or os.getenv('OPENAI_API_KEY') or '').strip()
-    resolved_endpoint = (endpoint or os.getenv('LLM_BASE_URL') or 'https://api.groq.com/openai/v1').strip().rstrip('/')
+    """Resolve LLM credentials from parameters, Streamlit secrets, or environment variables."""
+    resolved_key = (api_key or _get_env_or_secret('LLM_API_KEY') or _get_env_or_secret('OPENAI_API_KEY') or '').strip()
+    resolved_endpoint = (endpoint or _get_env_or_secret('LLM_BASE_URL') or 'https://api.groq.com/openai/v1').strip().rstrip('/')
     if not resolved_endpoint.endswith('/chat/completions'):
         resolved_endpoint += '/chat/completions'
-    resolved_model = (model or os.getenv('LLM_MODEL') or 'llama-3.3-70b-versatile').strip()
+    resolved_model = (model or _get_env_or_secret('LLM_MODEL') or 'llama-3.3-70b-versatile').strip()
     return resolved_key, resolved_endpoint, resolved_model
 
 

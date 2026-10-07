@@ -175,6 +175,22 @@ python scratch/test_production_readiness.py
 ```
 Executes 9 unit tests verifying deduplication, URL validation, lead scoring determinism, AI synthesizers, and 4-sheet Excel generation.
 
+### ☁️ Streamlit Community Cloud Deployment
+Deploying to **Streamlit Community Cloud** takes under 2 minutes:
+1. Log in to [share.streamlit.io](https://share.streamlit.io) with your GitHub account.
+2. Click **New app** and select:
+   - **Repository**: `ShivamkumarMantri/Intellix-B2B-Research-AI`
+   - **Branch**: `main`
+   - **Main file path**: `app.py`
+3. *(Optional)* In **Advanced settings ➔ Secrets**, paste your API credentials (see template in [`.streamlit/secrets.toml.example`](.streamlit/secrets.toml.example)):
+   ```toml
+   TAVILY_API_KEY = "tvly-..."
+   LLM_API_KEY = "gsk_..."
+   LLM_BASE_URL = "https://api.groq.com/openai/v1"
+   LLM_MODEL = "llama-3.3-70b-versatile"
+   ```
+4. Click **Deploy!** The application will launch with full Demo Mode and Live Research capabilities.
+
 ---
 
 ## 📂 Repository Structure
