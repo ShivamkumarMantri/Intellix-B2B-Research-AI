@@ -1,0 +1,36 @@
+# Environment & Secrets (NEVER COMMIT)
+.env
+.env.local
+.env.production
+.env.development
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Python Cache & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# IDE & Editor Configs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS Generated Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary Test Artifacts
+scratch/*.xlsx
+scratch/*.csv

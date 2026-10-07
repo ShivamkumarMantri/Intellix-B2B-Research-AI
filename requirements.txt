@@ -1,0 +1,13 @@
+# Core Web App & Visualization
+streamlit>=1.40.0
+
+# Data Manipulation & Quality Analytics
+pandas>=2.0.0
+openpyxl>=3.1.0
+
+# HTTP & Web Crawling Integration
+requests>=2.31.0
+tavily-python>=0.5.0
+
+# Environment Configuration
+python-dotenv>=1.0.0
