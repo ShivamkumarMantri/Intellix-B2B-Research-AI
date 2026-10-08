@@ -4,7 +4,7 @@
 ### Autonomous B2B Web Research, Data Hygiene & 0–100 Deterministic Lead Scoring OS
 
 [![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
-[![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white)](https://streamlit.io)
+[![Streamlit App](https://img.shields.io/badge/🚀%20Live%20Demo-Streamlit%20Cloud-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white)](https://intellix-b2b-research-ai.streamlit.app/)
 [![Pandas](https://img.shields.io/badge/pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)](https://pandas.pydata.org)
 [![OpenPyXL](https://img.shields.io/badge/openpyxl-217346?style=for-the-badge&logo=microsoft-excel&logoColor=white)](https://openpyxl.readthedocs.io)
 [![Tavily Search](https://img.shields.io/badge/Tavily_Search-06B6D4?style=for-the-badge&logo=compass&logoColor=white)](https://tavily.com)
@@ -12,6 +12,15 @@
 
 <p align="center">
   <strong>Intellix B2B Research AI</strong> is an enterprise-grade autonomous intelligence dashboard that searches, extracts, sanitizes, validates, scores, and exports verified B2B prospect intelligence directly from public business sources.
+</p>
+
+<p align="center">
+  <a href="https://intellix-b2b-research-ai.streamlit.app/" target="_blank">
+    <img src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg" alt="Open in Streamlit" />
+  </a>
+</p>
+<p align="center">
+  🌐 <strong>Live App Link</strong>: <a href="https://intellix-b2b-research-ai.streamlit.app/" target="_blank"><strong>https://intellix-b2b-research-ai.streamlit.app/</strong></a>
 </p>
 
 </div>
@@ -176,7 +185,10 @@ python scratch/test_production_readiness.py
 Executes 9 unit tests verifying deduplication, URL validation, lead scoring determinism, AI synthesizers, and 4-sheet Excel generation.
 
 ### ☁️ Streamlit Community Cloud Deployment
-Deploying to **Streamlit Community Cloud** takes under 2 minutes:
+The application is live in production on Streamlit Community Cloud:  
+👉 **[https://intellix-b2b-research-ai.streamlit.app/](https://intellix-b2b-research-ai.streamlit.app/)**
+
+Deploying or updating on **Streamlit Community Cloud** takes under 2 minutes:
 1. Log in to [share.streamlit.io](https://share.streamlit.io) with your GitHub account.
 2. Click **New app** and select:
    - **Repository**: `ShivamkumarMantri/Intellix-B2B-Research-AI`
